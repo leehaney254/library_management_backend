@@ -28,6 +28,7 @@ class Books(db.Model):
 
 def format_book(book):
     return{
+        "id": book.id,
         "title": book.title, 
         "author": book.author, 
         "genre": book.genre, 
@@ -54,7 +55,7 @@ def create_book():
     book = Books(title, author, genre, publisher, publication_date, description)
     db.session.add(book)
     db.session.commit()
-    return format_book()
+    return format_book(book)
 
 if __name__ == '__main__':
     app.run
