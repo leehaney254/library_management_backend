@@ -1,7 +1,5 @@
-# import os #creates functionality for creating and removing directory
-# import psycopg2 #used to connect to database
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:7711@localhost/libraryManagement'
@@ -28,11 +26,35 @@ class Books(db.Model):
         self.publication_date = publication_date
         self.description = description
 
+def format_book(book):
+    return{
+        "title": book.title, 
+        "author": book.author, 
+        "genre": book.genre, 
+        "publisher": book.publisher, 
+        "publication_date": book.publication_date, 
+        "description": book.description,
+    }
+
+# Create the database tables within the Flask application context
+def create_all_tables():
+    with app.app_context():
+        db.create_all()
+
 
 # Books route
-@app.route("/books")
-def books():
-    return 'Hey!'
+@app.route("/books", methods = ['POST'])
+def create_book():
+    title = request.json['title']
+    author = request.json['author']
+    genre = request.json['genre']
+    publisher = request.json['publisher']
+    publication_date = request.json['publication_date']
+    description = request.json['description']
+    book = Books(title, author, genre, publisher, publication_date, description)
+    db.session.add(book)
+    db.session.commit()
+    return format_book()
 
 if __name__ == '__main__':
     app.run
