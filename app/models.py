@@ -32,4 +32,34 @@ def format_book(book):
         "description": book.description,
     }
 
+
+# Create the members model
+class Members(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(250), nullable=False)
+    email = db.Column(db.String(200), nullable=False)
+    debt = db.Column(db.Integer, nullable=False)
+    phone_number = db.Column(db.String(200), nullable=False)
+
+    def __repr__(self):
+        return f"Books:{self.id, self.name, self.email, self.debt, self.phone_number}"
     
+    def __init__(self, name, email, debt, phone_number):
+        self.name = name
+        self.email = email
+        self.debt = debt
+        self.phone_number = phone_number
+
+def format_member(member):
+    return{
+        "id": member.id,
+        "name": member.name, 
+        "debt": member.debt, 
+        "email": member.email, 
+        "phone_number": member.phone_number, 
+    }
+
+# Create the database tables within the Flask application context
+def create_all_tables():
+    with app.app_context():
+        db.create_all()

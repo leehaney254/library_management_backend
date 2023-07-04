@@ -1,28 +1,26 @@
 from app import app, request, db
 from app.models import Books, format_book
 
-# Create Book
-@app.route('/books', methods = ['POST'])
+# Create Book and get all books
+@app.route('/books', methods = ['POST', 'GET'])
 def create_book():
-    title = request.json['title']
-    author = request.json['author']
-    genre = request.json['genre']
-    publisher = request.json['publisher']
-    publication_date = request.json['publication_date']
-    description = request.json['description']
-    book = Books(title, author, genre, publisher, publication_date, description)
-    db.session.add(book)
-    db.session.commit()
-    return format_book(book)
-
-#Get all books
-@app.route('/books', methods = ['GET'])
-def get_books():
-    books = Books.query.order_by(Books.id.asc()).all()
-    book_list = []
-    for book in books:
-        book_list.append(format_book(book))
-    return {'book': book_list}
+    if request.method == 'POST':
+      title = request.json['title']
+      author = request.json['author']
+      genre = request.json['genre']
+      publisher = request.json['publisher']
+      publication_date = request.json['publication_date']
+      description = request.json['description']
+      book = Books(title, author, genre, publisher, publication_date, description)
+      db.session.add(book)
+      db.session.commit()
+      return format_book(book)
+    elif request.method == 'GET':
+        books = Books.query.order_by(Books.id.asc()).all()
+        book_list = []
+        for book in books:
+            book_list.append(format_book(book))
+        return {'book': book_list}
 
 # One book
 @app.route('/books/<id>', methods = ['GET', 'DELETE', 'PUT'])
