@@ -43,8 +43,8 @@ def create_all_tables():
         db.create_all()
 
 
-# Books route
-@app.route("/books", methods = ['POST'])
+# Create Book
+@app.route('/books', methods = ['POST'])
 def create_book():
     title = request.json['title']
     author = request.json['author']
@@ -56,6 +56,39 @@ def create_book():
     db.session.add(book)
     db.session.commit()
     return format_book(book)
+
+#Get all books
+@app.route('/books', methods = ['GET'])
+def get_books():
+    books = Books.query.order_by(Books.id.asc()).all()
+    book_list = []
+    for book in books:
+        book_list.append(format_book(book))
+    return {'book': book_list}
+
+# One book
+@app.route('/books/<id>', methods = ['GET', 'DELETE', 'PUT'])
+def modify_book(id):
+    if request.method == 'GET':
+        book = Books.query.filter_by(id=id).one()
+        formated_book = format_book(book)
+        return {"book": formated_book}
+    elif request.method == 'DELETE':
+        book = Books.query.filter_by(id=id).one()
+        db.session.delete(book)
+        db.session.commit()
+        return f'Book (id: {id}) deleted'
+    elif request.method == 'PUT':
+        book = Books.query.filter_by(id=id)
+        title = request.json['title']
+        author = request.json['author']
+        genre = request.json['genre']
+        publisher = request.json['publisher']
+        publication_date = request.json['publication_date']
+        description = request.json['description']
+        book.update(title = title, author = author, genre = genre, publisher = publisher, publication_date = publication_date, description = description)
+        db.session.commit()
+        return {'book': format_book(book.one())}
 
 if __name__ == '__main__':
     app.run
