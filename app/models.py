@@ -59,6 +59,22 @@ def format_member(member):
         "phone_number": member.phone_number, 
     }
 
+# Create the reservations model
+class Reservations(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer, nullable=False)
+    member_id = db.Column(db.Integer, nullable=False)
+    return_date = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f"Books:{self.id, self.book_id, self.member_id, self.return_date}"
+    
+    def __init__(self, book_id, member_id, return_date):
+        self.book_id = book_id
+        self.member_id = member_id
+        self.return_date = return_date
+
+
 # Create the database tables within the Flask application context
 def create_all_tables():
     with app.app_context():
