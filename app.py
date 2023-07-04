@@ -86,7 +86,7 @@ def modify_book(id):
         publisher = request.json['publisher']
         publication_date = request.json['publication_date']
         description = request.json['description']
-        book.update(title = title, author = author, genre = genre, publisher = publisher, publication_date = publication_date, description = description)
+        book.update(dict(title = title, author = author, genre = genre, publisher = publisher, publication_date = publication_date, description = description))
         db.session.commit()
         return {'book': format_book(book.one())}
 
