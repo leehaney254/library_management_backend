@@ -44,11 +44,11 @@ def modify_book(id):
         description = request.json['description']
         book.update(dict(title = title, author = author, genre = genre, publisher = publisher, publication_date = publication_date, description = description))
         db.session.commit()
-        return {'book': format_book(book.one())}
+        return {'books': format_book(book.one())}
 
 
 # Create Member and get all members
-@app.route('/member', methods = ['POST', 'GET'])
+@app.route('/members', methods = ['POST', 'GET'])
 def create_member():
     if request.method == 'POST':
       name = request.json['name']
@@ -60,8 +60,8 @@ def create_member():
       db.session.commit()
       return format_member(member)
     elif request.method == 'GET':
-        books = Books.query.order_by(Books.id.asc()).all()
-        book_list = []
-        for book in books:
-            book_list.append(format_book(book))
-        return {'book': book_list}
+        members = Members.query.order_by(Members.id.asc()).all()
+        members_list = []
+        for member in members:
+            members_list.append(format_member(member))
+        return {'members': members_list}
