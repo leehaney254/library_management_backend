@@ -1,5 +1,5 @@
 from app import app, request, db
-from app.models import Books, format_book
+from app.models import Books, format_book, Members, format_member
 
 # Create Book and get all books
 @app.route('/books', methods = ['POST', 'GET'])
@@ -45,3 +45,23 @@ def modify_book(id):
         book.update(dict(title = title, author = author, genre = genre, publisher = publisher, publication_date = publication_date, description = description))
         db.session.commit()
         return {'book': format_book(book.one())}
+
+
+# Create Member and get all members
+@app.route('/member', methods = ['POST', 'GET'])
+def create_member():
+    if request.method == 'POST':
+      name = request.json['name']
+      email = request.json['email']
+      debt = request.json['debt']
+      phone_number = request.json['phone_number']
+      member = Members(name, email, debt, phone_number)
+      db.session.add(member)
+      db.session.commit()
+      return format_member(member)
+    elif request.method == 'GET':
+        books = Books.query.order_by(Books.id.asc()).all()
+        book_list = []
+        for book in books:
+            book_list.append(format_book(book))
+        return {'book': book_list}
