@@ -125,19 +125,17 @@ def modify_reservation(id):
         formatted_reservation = combine_reservation(reservation)
         return {"reservation": formatted_reservation}
     elif request.method == 'DELETE':
-        member = Members.query.filter_by(id=id).one()
-        db.session.delete(member)
+        reservation = Reservations.query.filter_by(id=id).one()
+        db.session.delete(reservation)
         db.session.commit()
         return f'Member (id: {id}) deleted'
     elif request.method == 'PUT':
-        member = Members.query.filter_by(id=id)
-        name = request.json['name']
-        email = request.json['email']
-        debt = request.json['debt']
-        phone_number = request.json['phone_number']
-        member.update(dict(name = name, email = email, debt = debt, phone_number = phone_number))
+        reservation = Reservations.query.filter_by(id=id)
+        returned = request.json['returned']
+        reservation.update(dict(returned = returned))
         db.session.commit()
-        return {'member': format_member(member.one())}
+        formatted_reservation = combine_reservation(reservation.one())
+        return {'member': formatted_reservation}
     
 # Creates a combination of book, member and reservation
 def combine_reservation(reservation):
