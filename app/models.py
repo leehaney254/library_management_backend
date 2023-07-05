@@ -1,4 +1,5 @@
 from app import db, app
+from datetime import datetime, timedelta
 
 #Create the models
 class Books(db.Model):
@@ -9,17 +10,19 @@ class Books(db.Model):
     publisher = db.Column(db.String(200), nullable=False)
     publication_date = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(300), nullable=False)
+    image = db.Column(db.String(400), nullable=False)
 
     def __repr__(self):
-        return f"Books:{self.title, self.author, self.genre, self.publisher, self.publication_date, self.description}"
+        return f"Books:{self.title, self.author, self.genre, self.publisher, self.publication_date, self.description, self.image}"
     
-    def __init__(self, title, author, genre, publisher, publication_date, description):
+    def __init__(self, title, author, genre, publisher, publication_date, description, image):
         self.title = title
         self.author = author
         self.genre = genre
         self.publisher = publisher
         self.publication_date = publication_date
         self.description = description
+        self.image = image
 
 def format_book(book):
     return{
@@ -30,6 +33,7 @@ def format_book(book):
         "publisher": book.publisher, 
         "publication_date": book.publication_date, 
         "description": book.description,
+        "image": book.image
     }
 
 
@@ -40,6 +44,7 @@ class Members(db.Model):
     email = db.Column(db.String(200), nullable=False)
     debt = db.Column(db.Integer, nullable=False)
     phone_number = db.Column(db.String(200), nullable=False)
+    reservations = db.relationship('Reservations', backref='members')
 
     def __repr__(self):
         return f"Books:{self.id, self.name, self.email, self.debt, self.phone_number}"
@@ -62,20 +67,34 @@ def format_member(member):
 # Create the reservations model
 class Reservations(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    book_id = db.Column(db.Integer, nullable=False)
-    member_id = db.Column(db.Integer, nullable=False)
-    return_date = db.Column(db.Integer, nullable=False)
+    member_id = db.Column(db.Integer, db.ForeignKey('members.id'))
+    return_date = db.Column(db.Date, nullable=False, default=datetime.utcnow() + timedelta(days=7))
+    returned = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
-        return f"Books:{self.id, self.book_id, self.member_id, self.return_date}"
+        return f"Books:{self.id, self.member_id, self.return_date, self.returned}"
     
-    def __init__(self, book_id, member_id, return_date):
-        self.book_id = book_id
+    def __init__(self, member_id, returned, return_date=None):
         self.member_id = member_id
-        self.return_date = return_date
+        if return_date is not None:
+            self.return_date = datetime.strptime(return_date, "%Y-%m-%d").date()
+        self.returned = returned
+
+# To be updated
+def format_reservation(reservation):
+    return{
+        "id": reservation.id,
+        "member_id": reservation.member_id, 
+        "return_date": reservation.return_date, 
+        "returned": reservation.returned, 
+    }
 
 
 # Create the database tables within the Flask application context
 def create_all_tables():
     with app.app_context():
         db.create_all()
+
+def drop_all_tables():
+    with app.app_context():
+        db.drop_all()

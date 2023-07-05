@@ -11,7 +11,8 @@ def create_book():
       publisher = request.json['publisher']
       publication_date = request.json['publication_date']
       description = request.json['description']
-      book = Books(title, author, genre, publisher, publication_date, description)
+      image = request.json['image']
+      book = Books(title, author, genre, publisher, publication_date, description, image)
       db.session.add(book)
       db.session.commit()
       return format_book(book)
@@ -42,7 +43,8 @@ def modify_book(id):
         publisher = request.json['publisher']
         publication_date = request.json['publication_date']
         description = request.json['description']
-        book.update(dict(title = title, author = author, genre = genre, publisher = publisher, publication_date = publication_date, description = description))
+        image = request.json['image']
+        book.update(dict(title = title, author = author, genre = genre, publisher = publisher, publication_date = publication_date, description = description, image = image))
         db.session.commit()
         return {'books': format_book(book.one())}
 
