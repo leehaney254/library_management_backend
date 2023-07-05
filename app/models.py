@@ -11,7 +11,7 @@ class Books(db.Model):
     publication_date = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(300), nullable=False)
     image = db.Column(db.String(400), nullable=False)
-    reservations = db.relationship('Reservations', backref='Books', uselist=False)
+    reservations = db.relationship('Reservations', backref='Books', uselist=False, cascade='all, delete-orphan')
 
     def __repr__(self):
         return f"Books:{self.title, self.author, self.genre, self.publisher, self.publication_date, self.description, self.image}"
@@ -45,7 +45,7 @@ class Members(db.Model):
     email = db.Column(db.String(200), nullable=False)
     debt = db.Column(db.Integer, nullable=False)
     phone_number = db.Column(db.String(200), nullable=False)
-    reservations = db.relationship('Reservations', backref='members')
+    reservations = db.relationship('Reservations', backref='members', cascade='all, delete-orphan')
 
     def __repr__(self):
         return f"Member:{self.id, self.name, self.email, self.debt, self.phone_number}"
