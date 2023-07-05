@@ -108,25 +108,43 @@ def create_reservation():
       db.session.add(reservation)
       db.session.commit()
 
-      # Retrieve the book and member objects
-      book = Books.query.get(book_id)
-      member = Members.query.get(member_id)
-
-      # Format data for frontend
-      formatted_member = format_member(member)
-      formatted_book = format_book(book)
-      formatted_reservation = format_reservation(reservation, formatted_book, formatted_member)
+      formatted_reservation = combine_reservation(reservation)
       return formatted_reservation
     elif request.method == 'GET':
         reservations = Reservations.query.order_by(Reservations.id.asc()).all()
         reservation_list = []
         for reservation in reservations:
-            # Retrieve the book and member objects
-            book = Books.query.get(book_id)
-            member = Members.query.get(member_id)
+          reservation_list.append(combine_reservation(reservation))
+        return {'reservations': reservation_list}
+    
+# One reservation
+@app.route('/reservations/<id>', methods = ['GET', 'DELETE', 'PUT'])
+def modify_reservation(id):
+    if request.method == 'GET':
+        reservation = Reservations.query.filter_by(id=id).one()
+        formatted_reservation = combine_reservation(reservation)
+        return {"reservation": formatted_reservation}
+    elif request.method == 'DELETE':
+        member = Members.query.filter_by(id=id).one()
+        db.session.delete(member)
+        db.session.commit()
+        return f'Member (id: {id}) deleted'
+    elif request.method == 'PUT':
+        member = Members.query.filter_by(id=id)
+        name = request.json['name']
+        email = request.json['email']
+        debt = request.json['debt']
+        phone_number = request.json['phone_number']
+        member.update(dict(name = name, email = email, debt = debt, phone_number = phone_number))
+        db.session.commit()
+        return {'member': format_member(member.one())}
+    
+# Creates a combination of book, member and reservation
+def combine_reservation(reservation):
+    # Retrieve the book and member objects
+            book = Books.query.get(reservation.book_id)
+            member = Members.query.get(reservation.member_id)
             # Format data for frontend
             formatted_member = format_member(member)
             formatted_book = format_book(book)
-            formatted_reservation = format_reservation(reservation, formatted_book, formatted_member)
-            reservation_list.append(formatted_reservation)
-        return {'members': reservation_list}
+            return format_reservation(reservation, formatted_book, formatted_member)
