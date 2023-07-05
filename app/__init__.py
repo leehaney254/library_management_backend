@@ -1,8 +1,13 @@
+import os
+from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, request
 
+load_dotenv()
+url = os.getenv("DATABASE_URL")
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:7711@localhost/libraryManagement'
+app.config['SQLALCHEMY_DATABASE_URI'] = url
 db = SQLAlchemy(app)
 
 # We import routes and models
