@@ -65,3 +65,25 @@ def create_member():
         for member in members:
             members_list.append(format_member(member))
         return {'members': members_list}
+    
+# One member
+@app.route('/members/<id>', methods = ['GET', 'DELETE', 'PUT'])
+def modify_member(id):
+    if request.method == 'GET':
+        member = Members.query.filter_by(id=id).one()
+        formated_member = format_member(member)
+        return {"book": formated_member}
+    elif request.method == 'DELETE':
+        member = Members.query.filter_by(id=id).one()
+        db.session.delete(member)
+        db.session.commit()
+        return f'Member (id: {id}) deleted'
+    elif request.method == 'PUT':
+        member = Members.query.filter_by(id=id)
+        name = request.json['name']
+        email = request.json['email']
+        debt = request.json['debt']
+        phone_number = request.json['phone_number']
+        member.update(dict(name = name, email = email, debt = debt, phone_number = phone_number))
+        db.session.commit()
+        return {'member': format_member(member.one())}
