@@ -9,8 +9,8 @@ class Books(db.Model):
     genre = db.Column(db.String(100), nullable=False)
     publisher = db.Column(db.String(200), nullable=False)
     publication_date = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.String(300), nullable=False)
-    image = db.Column(db.String(400), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    image = db.Column(db.String(500), nullable=False)
     reservations = db.relationship('Reservations', backref='Books', uselist=False, cascade='all, delete-orphan')
 
     def __repr__(self):
@@ -84,10 +84,11 @@ class Reservations(db.Model):
         self.returned = returned
 
 # To be updated
-def format_reservation(reservation):
+def format_reservation(reservation, book, member):
     return{
         "id": reservation.id,
-        "member_id": reservation.member_id, 
+        "book": book,
+        "member": member, 
         "return_date": reservation.return_date, 
         "returned": reservation.returned, 
     }
