@@ -11,6 +11,7 @@ class Books(db.Model):
     publication_date = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(300), nullable=False)
     image = db.Column(db.String(400), nullable=False)
+    reservations = db.relationship('Reservations', backref='Books', uselist=False)
 
     def __repr__(self):
         return f"Books:{self.title, self.author, self.genre, self.publisher, self.publication_date, self.description, self.image}"
@@ -47,7 +48,7 @@ class Members(db.Model):
     reservations = db.relationship('Reservations', backref='members')
 
     def __repr__(self):
-        return f"Books:{self.id, self.name, self.email, self.debt, self.phone_number}"
+        return f"Member:{self.id, self.name, self.email, self.debt, self.phone_number}"
     
     def __init__(self, name, email, debt, phone_number):
         self.name = name
@@ -67,14 +68,16 @@ def format_member(member):
 # Create the reservations model
 class Reservations(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'), unique=True, nullable=False)
     member_id = db.Column(db.Integer, db.ForeignKey('members.id'))
     return_date = db.Column(db.Date, nullable=False, default=datetime.utcnow() + timedelta(days=7))
     returned = db.Column(db.Boolean, nullable=False)
 
     def __repr__(self):
-        return f"Books:{self.id, self.member_id, self.return_date, self.returned}"
+        return f"Reservation:{self.id, self.book_id, self.member_id, self.return_date, self.returned}"
     
-    def __init__(self, member_id, returned, return_date=None):
+    def __init__(self, book_id, member_id, returned, return_date=None):
+        self.book_id = book_id
         self.member_id = member_id
         if return_date is not None:
             self.return_date = datetime.strptime(return_date, "%Y-%m-%d").date()
