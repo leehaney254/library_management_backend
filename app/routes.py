@@ -25,7 +25,7 @@ def create_book():
             book_list.append(format_book(book))
         return {'books': book_list}
 
-# One book
+# Get, Update and delete one book
 @app.route('/books/<id>', methods = ['GET', 'DELETE', 'PUT'])
 def modify_book(id):
     if request.method == 'GET':
@@ -74,7 +74,7 @@ def create_member():
             members_list.append(format_member(member))
         return {'members': members_list}
     
-# One member
+# Get, Update and delete one member
 @app.route('/members/<id>', methods = ['GET', 'DELETE', 'PUT'])
 def modify_member(id):
     if request.method == 'GET':
@@ -137,7 +137,7 @@ def create_reservation():
           reservation_list.append(combine_reservation(reservation))
         return {'reservations': reservation_list}
     
-# One reservation
+# Get, Update and delete one reservation
 @app.route('/reservations/<id>', methods = ['GET', 'DELETE', 'PUT'])
 def modify_reservation(id):
     if request.method == 'GET':

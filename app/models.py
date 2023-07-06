@@ -2,7 +2,7 @@ from app import db, app
 from datetime import datetime, timedelta
 from sqlalchemy import CheckConstraint
 
-#Create the models
+#Create the book model
 class Books(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(250), nullable=False)
@@ -14,6 +14,8 @@ class Books(db.Model):
     image = db.Column(db.String(500), nullable=False)
     amount = db.Column(db.Integer, nullable=False, default=0)
     reservations = db.relationship('Reservations', backref='Books', cascade='all, delete-orphan')
+
+    # Makes sure the book count never goes below 0
     __table_args__ = (
         CheckConstraint('amount >= 0', name='check_amount_non_negative'),
     )
@@ -31,6 +33,7 @@ class Books(db.Model):
         self.image = image
         self.amount = amount
 
+# Formats the response to be sent to frontend
 def format_book(book):
     return{
         "id": book.id,
@@ -65,6 +68,7 @@ class Members(db.Model):
         self.phone_number = phone_number
         self.image = image
 
+# Formats the response to be sent to frontend
 def format_member(member):
     return{
         "id": member.id,
@@ -112,6 +116,7 @@ def create_all_tables():
     with app.app_context():
         db.create_all()
 
+# Drops all tables within the Flask application context
 def drop_all_tables():
     with app.app_context():
         db.drop_all()

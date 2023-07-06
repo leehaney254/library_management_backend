@@ -1,7 +1,7 @@
 from app import db, app
 from app.models import Reservations, Members, Books, create_all_tables, drop_all_tables
 
-
+# Members data to seed into the database
 members_data = [
     {
        'name': 'Leehaney', 'debt': 500, 'email': 'leeahney@gmail.com', 
@@ -20,6 +20,7 @@ members_data = [
     }, 
 ]
 
+# Books data to seed into the database
 books_data = [
     {
         'title': 'The 48 Laws of power', 
@@ -46,10 +47,11 @@ books_data = [
     },
 ]
 
+# Reservation data to seed into the database
 reservations_data = [
-    {'book_id': 1, 'member_id': 1, 'returned': False, "cost": 100}, 
-    {'book_id': 2, 'member_id': 2, 'returned': False, "cost": 200},
-    {'book_id': 3, 'member_id': 1,  'returned': False, "cost": 400, 'return_date': '2023-07-07'},
+    {'book_id': 1, 'member_id': 1, 'returned': False, 'cost': 100}, 
+    {'book_id': 2, 'member_id': 2, 'returned': False, 'cost': 200},
+    {'book_id': 3, 'member_id': 1,  'returned': False, 'cost': 400, 'return_date': '2023-07-07'},
 ]
 
 def seed_data():
