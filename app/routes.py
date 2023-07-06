@@ -108,7 +108,7 @@ def create_reservation():
       else:
         return_date = None
       returned = request.json['returned']
-      cost = cost.json['cost']
+      cost = request.json['cost']
 
       # Get information about the book and the member
       book = Books.query.get(book_id)
@@ -124,7 +124,7 @@ def create_reservation():
       book.amount -= 1
       member.debt += cost
 
-      reservation = Reservations(book_id, member_id, returned, return_date)
+      reservation = Reservations(book_id, member_id, returned, cost, return_date)
       db.session.add(reservation)
       db.session.commit()
 
@@ -147,14 +147,9 @@ def modify_reservation(id):
     elif request.method == 'DELETE':
         reservation = Reservations.query.filter_by(id=id).one()
 
-        # Get information about the book and the member
-        book = Books.query.get(reservation.book_id)
-        member = Members.query.get(reservation.member_id)
-      
-        # Reduce the book count by 1 and increase debt by reservation cost
-        book.amount += 1
-        member.debt -= reservation.cost
-        
+        # A function to manipulate the price and book count
+        price_count_manipulation(reservation)
+
         db.session.delete(reservation)
         db.session.commit()
         return f'Member (id: {id}) deleted'
@@ -162,14 +157,9 @@ def modify_reservation(id):
         reservation = Reservations.query.filter_by(id=id).one()
         returned = request.json['returned']
 
-        # Get information about the book and the member
-        book = Books.query.get(reservation.book_id)
-        member = Members.query.get(reservation.member_id)
-      
-        # Reduce the book count by 1 and increase debt by reservation cost
-        book.amount += 1
-        member.debt -= reservation.cost
-
+        # A function to manipulate the price and book count
+        price_count_manipulation(reservation)
+        
         # Update the returned status of the reservation
         reservation.returned = returned
 
@@ -187,3 +177,12 @@ def combine_reservation(reservation):
     formatted_member = format_member(member)
     formatted_book = format_book(book)
     return format_reservation(reservation, formatted_book, formatted_member)
+
+def price_count_manipulation(reservation):
+   # Get information about the book and the member
+    book = Books.query.get(reservation.book_id)
+    member = Members.query.get(reservation.member_id)
+      
+    # Reduce the book count by 1 and increase debt by reservation cost
+    book.amount += 1
+    member.debt -= reservation.cost

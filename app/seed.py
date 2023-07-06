@@ -4,12 +4,12 @@ from app.models import Reservations, Members, Books, create_all_tables, drop_all
 
 members_data = [
     {
-       'name': 'Leehaney', 'debt': 0, 'email': 'leeahney@gmail.com', 
+       'name': 'Leehaney', 'debt': 500, 'email': 'leeahney@gmail.com', 
        'phone_number': '+254', 
        'image': 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80'
      },
     {
-        'name': 'Mike', 'debt': 0, 'email': 'mike@gmail.com', 
+        'name': 'Mike', 'debt': 200, 'email': 'mike@gmail.com', 
         'phone_number': '+254',
         'image': 'https://images.unsplash.com/photo-1533108344127-a586d2b02479?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80'
     },
@@ -47,9 +47,9 @@ books_data = [
 ]
 
 reservations_data = [
-    {'book_id': 1, 'member_id': 1, 'returned': False}, 
-    {'book_id': 2, 'member_id': 2, 'returned': False},
-    {'book_id': 3, 'member_id': 1, 'return_date': '2023-07-07', 'returned': False},
+    {'book_id': 1, 'member_id': 1, 'returned': False, "cost": 100}, 
+    {'book_id': 2, 'member_id': 2, 'returned': False, "cost": 200},
+    {'book_id': 3, 'member_id': 1,  'returned': False, "cost": 400, 'return_date': '2023-07-07'},
 ]
 
 def seed_data():
