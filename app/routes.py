@@ -12,7 +12,8 @@ def create_book():
       publication_date = request.json['publication_date']
       description = request.json['description']
       image = request.json['image']
-      book = Books(title, author, genre, publisher, publication_date, description, image)
+      amount = request.json['amount']
+      book = Books(title, author, genre, publisher, publication_date, description, image, amount)
       db.session.add(book)
       db.session.commit()
       formated_book = format_book(book)
@@ -45,9 +46,10 @@ def modify_book(id):
         publication_date = request.json['publication_date']
         description = request.json['description']
         image = request.json['image']
+        amount = request.json['amount']
 
         # Update the book object
-        book.update(dict(title = title, author = author, genre = genre, publisher = publisher, publication_date = publication_date, description = description, image = image))
+        book.update(dict(title = title, author = author, genre = genre, publisher = publisher, publication_date = publication_date, description = description, image = image, amount = amount))
         db.session.commit()
         return {'books': format_book(book.one())}
 
@@ -60,7 +62,8 @@ def create_member():
       email = request.json['email']
       debt = request.json['debt']
       phone_number = request.json['phone_number']
-      member = Members(name, email, debt, phone_number)
+      image = request.json['image']
+      member = Members(name, email, debt, phone_number, image)
       db.session.add(member)
       db.session.commit()
       return format_member(member)
@@ -77,7 +80,7 @@ def modify_member(id):
     if request.method == 'GET':
         member = Members.query.filter_by(id=id).one()
         formated_member = format_member(member)
-        return {"book": formated_member}
+        return {"member": formated_member}
     elif request.method == 'DELETE':
         member = Members.query.filter_by(id=id).one()
         db.session.delete(member)
@@ -89,7 +92,8 @@ def modify_member(id):
         email = request.json['email']
         debt = request.json['debt']
         phone_number = request.json['phone_number']
-        member.update(dict(name = name, email = email, debt = debt, phone_number = phone_number))
+        image = request.json['image']
+        member.update(dict(name = name, email = email, debt = debt, phone_number = phone_number, image = image))
         db.session.commit()
         return {'member': format_member(member.one())}
     
@@ -104,6 +108,22 @@ def create_reservation():
       else:
         return_date = None
       returned = request.json['returned']
+      cost = cost.json['cost']
+
+      # Get information about the book and the member
+      book = Books.query.get(book_id)
+      member = Members.query.get(member_id)
+
+      # We check if book count is zero or less || the member has a debt > 500
+      if book.amount <= 0:
+        return {'message': 'There are no books to be reserved'}, 404
+      if member.debt >= 500:
+        return {'message': 'The member cannot reserve this book due to their debt'}, 404
+      
+      # Reduce the book count by 1 and increase debt by reservation cost
+      book.amount -= 1
+      member.debt += cost
+
       reservation = Reservations(book_id, member_id, returned, return_date)
       db.session.add(reservation)
       db.session.commit()
@@ -126,23 +146,44 @@ def modify_reservation(id):
         return {"reservation": formatted_reservation}
     elif request.method == 'DELETE':
         reservation = Reservations.query.filter_by(id=id).one()
+
+        # Get information about the book and the member
+        book = Books.query.get(reservation.book_id)
+        member = Members.query.get(reservation.member_id)
+      
+        # Reduce the book count by 1 and increase debt by reservation cost
+        book.amount += 1
+        member.debt -= reservation.cost
+        
         db.session.delete(reservation)
         db.session.commit()
         return f'Member (id: {id}) deleted'
     elif request.method == 'PUT':
-        reservation = Reservations.query.filter_by(id=id)
+        reservation = Reservations.query.filter_by(id=id).one()
         returned = request.json['returned']
-        reservation.update(dict(returned = returned))
+
+        # Get information about the book and the member
+        book = Books.query.get(reservation.book_id)
+        member = Members.query.get(reservation.member_id)
+      
+        # Reduce the book count by 1 and increase debt by reservation cost
+        book.amount += 1
+        member.debt -= reservation.cost
+
+        # Update the returned status of the reservation
+        reservation.returned = returned
+
+        # Commit the changes to the database
         db.session.commit()
-        formatted_reservation = combine_reservation(reservation.one())
+        formatted_reservation = combine_reservation(reservation)
         return {'member': formatted_reservation}
     
 # Creates a combination of book, member and reservation
 def combine_reservation(reservation):
     # Retrieve the book and member objects
-            book = Books.query.get(reservation.book_id)
-            member = Members.query.get(reservation.member_id)
-            # Format data for frontend
-            formatted_member = format_member(member)
-            formatted_book = format_book(book)
-            return format_reservation(reservation, formatted_book, formatted_member)
+    book = Books.query.get(reservation.book_id)
+    member = Members.query.get(reservation.member_id)
+    # Format data for frontend
+    formatted_member = format_member(member)
+    formatted_book = format_book(book)
+    return format_reservation(reservation, formatted_book, formatted_member)
