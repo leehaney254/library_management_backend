@@ -8,7 +8,6 @@
     - [Tech Stack ](#tech-stack-)
     - [Documentation ](#documentation-)
     - [Front end ](#front-end-)
-    - [Kanban board ](#kanban-board-)
     - [ERD Diagram ](#erd-diagram-)
     - [Key Features ](#key-features-)
   - [💻 Getting Started ](#-getting-started-)
@@ -16,13 +15,11 @@
     - [Setup](#setup)
     - [Usage](#usage)
     - [Run tests](#run-tests)
-  - [👥 Authors ](#-authors-)
+  - [👥 Author ](#-author-)
   - [🔭 Future Features ](#-future-features-)
   - [🤝 Contributing ](#-contributing-)
   - [⭐️ Show your support ](#️-show-your-support-)
-  - [🙏 Acknowledgments ](#-acknowledgments-)
-  - [📝 License ](#-license-)
-- [library\_management](#library_management)
+  - [� License ](#-license-)
 
 <!-- PROJECT DESCRIPTION -->
 
@@ -50,34 +47,26 @@
 
 ### Documentation <a name="Documentation"></a>
 
-The apps documentation can be found [here.](https://documenter.getpostman.com/view/21501737/2s93ecxWHQ)
+The apps documentation can be found [here.](https://documenter.getpostman.com/view/21501737/2s93zFXeQT)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Front end <a name="Front end"></a>
 
-The apps front-end can be found [here.](https://github.com/leehaney254/tutors-appointment-frontend.git)
-
-### Kanban board <a name="Kanban board"></a>
-
-- The [Kanban board ](https://user-images.githubusercontent.com/65546920/236225001-f59ed58b-f65d-4f3c-945d-7fa725a8a0d4.png) initial state
-- The [Kanban board](https://github.com/users/leehaney254/projects/1) final state
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+The apps front-end can be found [here.](https://github.com/leehaney254/library_managemnt_frontend)
 
 ### ERD Diagram <a name="ERD Diagram"></a>
 
-The ERD diagram can be found [here.](https://drawsql.app/teams/leehaneys-team/diagrams/tutor-erd)
+The ERD diagram can be found [here.](https://drawsql.app/teams/leehaneys-team/diagrams/library-management)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 <!-- Features -->
 
 ### Key Features <a name="key-features"></a>
 
-- **Login**
-- **Signup**
-- **Create tutors**
-- **Create reservations**
+- **CRUD on Books**
+- **CRUD on Members**
+- **CRUD on Reservatins**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -103,10 +92,9 @@ To get a local copy up and running, follow these steps:
 To run the app you need:
 
 - A code editor
-- A browser
-- Install Nodejs
-- Install Ruby
-- Install Rails
+- Install Python
+- App to test API's (i.e postman, insomnia)
+- Install Postgress
 
 ### Setup
 
@@ -114,14 +102,14 @@ Clone this repository to your desired folder:
 
 - Create a local directory where you can clone the project
 - Clone the project to your directory by running
-  - `git clone https://github.com/leehaney254/tutors-appointment-backend.git`
+  - `git clone https://github.com/leehaney254/library_managemnt_frontend.git`
 
 ### Usage
 
 To run the project, execute the following command:
 
 ```sh
-  rails server
+  flask run
 ```
 
 ### Run tests
@@ -129,30 +117,18 @@ To run the project, execute the following command:
 To run tests, run the following command:
 
 ```sh
-  rspec
+  pytest
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 👥 Authors <a name="authors"></a>
+## 👥 Author <a name="authors"></a>
 
 👤 **Leehaney George**
 
 - GitHub: [@githubhandle](https://github.com/leehaney254)
 - Twitter: [@twitterhandle](https://twitter.com/Lee06785586)
 - LinkedIn: [LinkedIn](https://www.linkedin.com/in/leehaney-george-0a4a51178/)
-
-👤 **Josphat Kiploman**
-
-- GitHub: [@github](https://github.com/Josphat205)
-- Twitter: [@twitter](https://twitter.com/josphatloman)
-- LinkedIn: [LinkedIn](https://linkedin.com/in/josphat205)
-
-👤 **Hassan EL OUARDY**
-
-- GitHub: [@codehass](https://github.com/codehass)
-- Twitter: [@hassanelourdy](https://twitter.com/hassanelourdy)
-- LinkedIn: [Hassan El OUARDY](https://www.linkedin.com/in/hassan-el-ouardy-360b99169/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -183,12 +159,6 @@ If you like this project kindly leave a ⭐
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## 🙏 Acknowledgments <a name="acknowledgements"></a>
-
-I would like to thank Microverse for the great resources shared.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- LICENSE -->
 
 ## 📝 License <a name="license"></a>
@@ -196,16 +166,5 @@ I would like to thank Microverse for the great resources shared.
 This project is [MIT](./LICENSE) licensed.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-# library_management
-This is the backend application for the library management system
-
-https://www.youtube.com/watch?v=DlNIXC9SaF4
-
-drawSQL
-https://drawsql.app/teams/leehaneys-team/diagrams/library-management
-
-tut
-https://www.youtube.com/watch?v=RcQwcyyCOmM
 
 
