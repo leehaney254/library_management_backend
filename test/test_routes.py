@@ -20,3 +20,22 @@ def test_create_book():
     assert response.status_code == 200
     assert 'book' in response.json()
     assert 'id' in response.json()['book']
+
+# Test for getting all books
+def test_get_all_books():
+    url = 'http://localhost:5000/books'
+    
+    response = requests.get(url)
+    assert response.status_code == 200
+    assert 'books' in response.json()
+    assert len(response.json()['books']) > 0
+
+# Test get one book
+def test_get_book():
+    url = 'http://localhost:5000/books/1'
+
+    response = requests.get(url)
+    assert response.status_code == 200
+    assert 'book' in response.json()
+    assert 'id' in response.json()['book']
+    assert response.json()['book']['id'] == 1
