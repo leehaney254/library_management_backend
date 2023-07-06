@@ -19,7 +19,7 @@
   - [🔭 Future Features ](#-future-features-)
   - [🤝 Contributing ](#-contributing-)
   - [⭐️ Show your support ](#️-show-your-support-)
-  - [� License ](#-license-)
+  - [📝 License ](#-license-)
 
 <!-- PROJECT DESCRIPTION -->
 
@@ -45,6 +45,8 @@
   </ul>
 </details>
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ### Documentation <a name="Documentation"></a>
 
 The apps documentation can be found [here.](https://documenter.getpostman.com/view/21501737/2s93zFXeQT)
@@ -54,6 +56,8 @@ The apps documentation can be found [here.](https://documenter.getpostman.com/vi
 ### Front end <a name="Front end"></a>
 
 The apps front-end can be found [here.](https://github.com/leehaney254/library_managemnt_frontend)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### ERD Diagram <a name="ERD Diagram"></a>
 
@@ -66,7 +70,7 @@ The ERD diagram can be found [here.](https://drawsql.app/teams/leehaneys-team/di
 
 - **CRUD on Books**
 - **CRUD on Members**
-- **CRUD on Reservatins**
+- **CRUD on Reservations**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -76,16 +80,17 @@ The ERD diagram can be found [here.](https://drawsql.app/teams/leehaneys-team/di
 
 To get a local copy up and running, follow these steps:
 
-To get a local copy up and running, follow these steps:
-
 - Create a local directory where you can clone the project
 - Clone the project to your directory by running
-  - `git clone https://github.com/leehaney254/tutors-appointment-backend.git`
-- Run `Bundle install`
-- Create a .env file and add values for `POSTGRES_USERNAME and POSTGRES_PASSWORD`
-- Run `rails db:create db:migrate`
-- Run `rails db:seed` this also creates the admin credentials who has the priviledges to create and delete tutor
-- Run `rails s`
+  - `git clone https://github.com/leehaney254/library_managemnt_frontend.git`
+- Create a postgress database
+- create a .env file and place your database url. An example can be:
+  -`DATABASE_URL=postgresql://postgres:PASSWORD@localhost/DATABASE_NAME`
+- Run `pip install -r requirements.txt`
+- Run `Python` to access the python terminal
+- Run `from app.seed import seed_data`
+- run `seed_data()`
+- exit python terminal and run `Flask run`
 
 ### Prerequisites
 
