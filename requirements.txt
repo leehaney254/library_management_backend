@@ -3,3 +3,5 @@ python-dotenv
 psycopg2
 flask-sqlalchemy
 flask-cors
+pytest
+requests
