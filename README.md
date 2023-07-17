@@ -84,6 +84,9 @@ To get a local copy up and running, follow these steps:
 - Clone the project to your directory by running
   - `git clone https://github.com/leehaney254/library_managemnt_frontend.git`
 - Create a postgress database
+- run `pip install pipenv` if you do not have it installed globally.
+- run `pipenv shell` to activate the virtual environment
+- Set your interpreter to be your virtual environment.
 - create a .env file and place your database url. An example can be:
   -`DATABASE_URL=postgresql://postgres:PASSWORD@localhost/DATABASE_NAME`
 - Run `pip install -r requirements.txt`
