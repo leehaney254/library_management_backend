@@ -61,6 +61,8 @@ The apps front-end can be found [here.](https://github.com/leehaney254/library_m
 
 ### ERD Diagram <a name="ERD Diagram"></a>
 
+<img width="490" alt="libraryerd" src="https://github.com/leehaney254/library_management_backend/assets/65546920/b107b752-59a3-491f-b1b2-04ffd91c6c5d">
+
 The ERD diagram can be found [here.](https://drawsql.app/teams/leehaneys-team/diagrams/library-management)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -118,14 +120,6 @@ To run the project, execute the following command:
 
 ```sh
   flask run
-```
-
-### Run tests
-
-To run tests, run the following command:
-
-```sh
-  pytest
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
