@@ -1,4 +1,5 @@
 from app import app, request, db
+from flask import abort
 from app.models import (
     Books,
     format_book,
@@ -163,11 +164,9 @@ def create_reservation():
 
         # We check if book count is zero or less || the member has a debt > 500
         if book.amount <= 0:
-            return {"message": "There are no books to be reserved"}, 404
+            abort(404, "There are no books to be reserved")
         if member.debt >= 500:
-            return {
-                "message": "The member cannot reserve this book due to their debt"
-            }, 404
+            abort(404, "The member cannot reserve this book due to their debt")
 
         # Reduce the book count by 1 and increase debt by reservation cost
         book.amount -= 1
