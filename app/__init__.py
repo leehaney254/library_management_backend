@@ -8,6 +8,7 @@ from flask_cors import CORS
 load_dotenv()
 url = os.getenv("DATABASE_URL")
 
+# Create an insance of flask
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = url
 db = SQLAlchemy(app)
